@@ -34,6 +34,7 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 3,       0,           -1 },
   { "copyq",    NULL,       NULL,       0,            1,           -1 },
+  { "emacs",    NULL,       NULL,       1 << 1,       0,           -1 },
 };
 
 /* layout(s) */
@@ -64,12 +65,16 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *clipcmd[]  = { "copyq", "menu", NULL };
+static const char *inc_backlight[]  = { "xbacklight", "+10", NULL };
+static const char *dec_backlight[]  = { "xbacklight", "-10", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = clipcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+  {0,                             0x1008ff02,spawn,          {.v = inc_backlight}},
+  {0,                             0x1008ff03,spawn,          {.v = dec_backlight}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
