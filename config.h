@@ -67,12 +67,21 @@ static const char *termcmd[]  = { "urxvt", NULL };
 static const char *clipcmd[]  = { "copyq", "menu", NULL };
 static const char *inc_backlight[]  = { "xbacklight", "+10", NULL };
 static const char *dec_backlight[]  = { "xbacklight", "-10", NULL };
+static const char *spotify_next[] = {"dbus-send"," --print-reply"," --dest=org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.Next", NULL};
+static const char *spotify_prev[] = {"dbus-send"," --print-reply"," --dest=org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.Previous", NULL};
+static const char *spotify_pause[]= {"dbus-send"," --print-reply"," --dest=org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.PlayPause", NULL};
+static const char *slock[] = { "slock", NULL };
+
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = clipcmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+  { MODKEY|ShiftMask,             XK_l,      spawn,          {.v = slock } },
+  { MODKEY,                       XK_Right,  spawn,          {.v = spotify_next } },
+  { MODKEY,                       XK_Left,   spawn,          {.v = spotify_prev } },
+  { MODKEY,                       XK_grave,  spawn,          {.v = spotify_pause } },
   {0,                             0x1008ff02,spawn,          {.v = inc_backlight}},
   {0,                             0x1008ff03,spawn,          {.v = dec_backlight}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
