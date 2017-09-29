@@ -47,8 +47,8 @@ static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ "[M]",      monocle },
-  { "[E]",      emacsgod}     /* emacs god mode */
+	{ "[M]",      monocle }
+  //{ "[E]",      emacsgod}     /* emacs god mode */
 };
 
 /* key definitions */
@@ -73,10 +73,9 @@ static const char *spotify_next[] = {"dbus-send"," --print-reply"," --dest=org.m
 static const char *spotify_prev[] = {"dbus-send"," --print-reply"," --dest=org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.Previous", NULL};
 static const char *spotify_pause[]= {"dbus-send"," --print-reply"," --dest=org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.PlayPause", NULL};
 static const char *slock[] = { "slock", NULL };
-static const char *vol_mute[] = {"pactl" "set-sink-volume" "alsa_output.platform-cht-bsw-rt5645.HiFi__hw_chtrt5645__sink" "0", NULL };
-static const char *vol_up[] = {"pactl" "set-sink-volume" "alsa_output.platform-cht-bsw-rt5645.HiFi__hw_chtrt5645__sink" "+10%", NULL };
-static const char *vol_down[] = {"pactl" "set-sink-volume" "alsa_output.platform-cht-bsw-rt5645.HiFi__hw_chtrt5645__sink" "-10%", NULL };
-
+static const char *vol_up[] = { "vol_ctl", "up", NULL };
+static const char *vol_down[] = { "vol_ctl", "down", NULL };
+static const char *vol_mute[] = { "vol_ctl", "mute", NULL };
 
 static Key keys[] = {
 	/* modifier                     key        function        argument */
