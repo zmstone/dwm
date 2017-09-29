@@ -35,6 +35,7 @@ static const Rule rules[] = {
 	{ "Firefox",  NULL,       NULL,       1 << 3,       0,           -1 },
   { "copyq",    NULL,       NULL,       0,            1,           -1 },
   { "Emacs",    NULL,       NULL,       1 << 1,       0,           -1 },
+  { "dwm",      NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -47,6 +48,7 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
+  { "[E]",      emacsgod}     /* emacs god mode */
 };
 
 /* key definitions */
@@ -62,7 +64,7 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, "-c", NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *clipcmd[]  = { "copyq", "menu", NULL };
 static const char *inc_backlight[]  = { "xbacklight", "+10", NULL };
@@ -71,6 +73,9 @@ static const char *spotify_next[] = {"dbus-send"," --print-reply"," --dest=org.m
 static const char *spotify_prev[] = {"dbus-send"," --print-reply"," --dest=org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.Previous", NULL};
 static const char *spotify_pause[]= {"dbus-send"," --print-reply"," --dest=org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2", "org.mpris.MediaPlayer2.Player.PlayPause", NULL};
 static const char *slock[] = { "slock", NULL };
+static const char *vol_mute[] = {"pactl" "set-sink-volume" "alsa_output.platform-cht-bsw-rt5645.HiFi__hw_chtrt5645__sink" "0", NULL };
+static const char *vol_up[] = {"pactl" "set-sink-volume" "alsa_output.platform-cht-bsw-rt5645.HiFi__hw_chtrt5645__sink" "+10%", NULL };
+static const char *vol_down[] = {"pactl" "set-sink-volume" "alsa_output.platform-cht-bsw-rt5645.HiFi__hw_chtrt5645__sink" "-10%", NULL };
 
 
 static Key keys[] = {
@@ -84,6 +89,9 @@ static Key keys[] = {
   { MODKEY,                       XK_grave,  spawn,          {.v = spotify_pause } },
   {0,                             0x1008ff02,spawn,          {.v = inc_backlight}},
   {0,                             0x1008ff03,spawn,          {.v = dec_backlight}},
+  {0,                             0x1008ff11,spawn,          {.v = vol_down}},
+  {0,                             0x1008ff12,spawn,          {.v = vol_mute}},
+  {0,                             0x1008ff13,spawn,          {.v = vol_up}},
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
