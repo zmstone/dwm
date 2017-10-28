@@ -6,7 +6,7 @@ include config.mk
 SRC = drw.c dwm.c util.c
 OBJ = ${SRC:.c=.o}
 
-all: options dwm
+all: options dwm barm
 
 options:
 	@echo dwm build options:
@@ -28,6 +28,14 @@ dwm: ${OBJ}
 	@echo CC -o $@
 	@${CC} -o $@ ${OBJ} ${LDFLAGS}
 
+barM.o: barM.c
+	@echo CC $<
+	@${CC} -c ${CFLAGS} $<
+
+barm: barM.o
+	@echo CC -o $@
+	@${CC} -o $@ barM.o ${LDFLAGS}
+
 clean:
 	@echo cleaning
 	@rm -f dwm ${OBJ} dwm-${VERSION}.tar.gz
@@ -40,16 +48,19 @@ dist: clean
 	@tar -cf dwm-${VERSION}.tar dwm-${VERSION}
 	@gzip dwm-${VERSION}.tar
 	@rm -rf dwm-${VERSION}
+	@rm -f *.o
 
 install: all
 	@echo installing executable file to ${DESTDIR}${PREFIX}/bin
 	@mkdir -p ${DESTDIR}${PREFIX}/bin
 	@cp -f dwm ${DESTDIR}${PREFIX}/bin
+	@cp -f barm ${DESTDIR}${PREFIX}/bin
 	@chmod 755 ${DESTDIR}${PREFIX}/bin/dwm
 	@echo installing manual page to ${DESTDIR}${MANPREFIX}/man1
 	@mkdir -p ${DESTDIR}${MANPREFIX}/man1
 	@sed "s/VERSION/${VERSION}/g" < dwm.1 > ${DESTDIR}${MANPREFIX}/man1/dwm.1
 	@chmod 644 ${DESTDIR}${MANPREFIX}/man1/dwm.1
+
 
 uninstall:
 	@echo removing executable file from ${DESTDIR}${PREFIX}/bin
