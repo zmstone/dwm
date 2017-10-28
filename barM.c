@@ -35,25 +35,24 @@ static const char*(*const functab[])(void)={
         ram,date
 };
 
-int main(void){
+int main(int argc, char *argv[]){
         char status[MAXSTR];
-        int ret = 0;
-        char*off=status+ret;
-        if(off>=(status+MAXSTR)){
-                XSetRoot(status);
-                return 1;/*This should not happen*/
+        char* off = status;
+        int left = sizeof(status);
+        char* sta = off;
+        for(int i = 1; i < argc && left > 0;  ++i) {
+                int ret = snprintf(sta, left,"[%s] ", argv[i]);
+                sta += ret;
+                left -= ret;
         }
-        int left=sizeof(status)-ret,i;
-        char*sta=off;
-        for(i = 0; i<sizeof(functab)/sizeof(functab[0]); ++i ) {
-                int ret=snprintf(sta,left,"(%s) ",functab[i]());
-                sta+=ret;
-                left-=ret;
-                if(sta>=(status+MAXSTR))/*When snprintf has to resort to truncating a string it will return the length as if it were not truncated.*/
-                        break;
+        int funtab_size = sizeof(functab)/sizeof(functab[0]);
+        for(int i = 0; i < funtab_size && left > 0; ++i ) {
+                int ret = snprintf(sta, left, "[%s] ", functab[i]());
+                sta += ret;
+                left -= ret;
         }
         XSetRoot(status);
-        /* printf("%s\n", status); */
+        printf("%s\n", status);
         return 0;
 }
 
